@@ -14,6 +14,7 @@ struct cula_service {
     cula_list link;
     const char *name;
     void *service_ptr;
+    cula_signal destroy_signal;
 };
 
 typedef void (*cula_work_cb)(void *arg);

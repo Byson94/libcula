@@ -107,10 +107,10 @@ struct cula_upower *cula_create_upower(struct cula_context *ctx) {
 
 void cula_destroy_upower(struct cula_upower *upower) {
     if (upower->CULA_INTERNAL.onbatt_ctx)
-        cula_cancel_dbus_listen(upower->CULA_INTERNAL.onbatt_ctx);
+        cula_destroy_dbus_call(upower->CULA_INTERNAL.onbatt_ctx);
 
     if (upower->CULA_INTERNAL.perc_ctx)
-        cula_cancel_dbus_listen(upower->CULA_INTERNAL.perc_ctx);
+        cula_destroy_dbus_call(upower->CULA_INTERNAL.perc_ctx);
 
     free(upower);
 }

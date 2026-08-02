@@ -43,7 +43,7 @@ static void *cula_thread_func(void *arg) {
     return NULL;
 }
 
-struct cula_context *cula_create_context() {
+struct cula_context *cula_create_context(void) {
     struct cula_context *ctx = calloc(1, sizeof(struct cula_context));
 
     if (uv_loop_init(&ctx->loop) != 0) {
@@ -70,13 +70,35 @@ int cula_run_context(struct cula_context *ctx) {
     return 0;
 }
 
-void cula_destroy_context(struct cula_context *ctx) {
+static void close_walk_cb(uv_handle_t* handle, void* arg) {
+    UNUSED(arg);
+    if (!uv_is_closing(handle)) {
+        uv_close(handle, NULL);
+    }
+}
+
+static void cula_shutdown_task(void *arg) {
+    struct cula_context *ctx = arg;
+
     uv_stop(&ctx->loop);
-    uv_close((uv_handle_t *)&ctx->async_handle, NULL);
+    uv_walk(&ctx->loop, close_walk_cb, NULL);
+
+    struct cula_service *service;
+    cula_list_for_each(service, &ctx->services, link) {
+        cula_signal_emit(&service->destroy_signal, service);
+    }
+}
+
+void cula_destroy_context(struct cula_context *ctx) {
+    if (!ctx) return;
 
     if (ctx->running) {
+        cula_post_context(ctx, cula_shutdown_task, ctx);
         pthread_join(ctx->thread_id, NULL);
     }
+
+    cula_list_remove(&ctx->services);
+    cula_list_remove(&ctx->work_queue);
 
     uv_loop_close(&ctx->loop);
     free(ctx);

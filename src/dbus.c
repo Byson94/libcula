@@ -7,7 +7,49 @@
 #include "libcula/core.h"
 #include "libcula/services/dbus.h"
 #include "internal/core.h"
+#include "internal/dbus.h"
 #include "libcula/utils.h"
+
+static void cula_dbus_on_poll(uv_poll_t *handle, int status, int events) {
+    if (status < 0) {
+        return; 
+    }
+
+    struct cula_dbus_poll *dbus_poll = handle->data;
+    
+    if (events & UV_READABLE) {
+        while (sd_bus_process(dbus_poll->dbus->bus, NULL) > 0) {
+            // Flush the que
+        }
+    }
+}
+
+static void destroy_dbus_instruction(cula_listener *listener, void *data) {
+    UNUSED(data);
+    struct cula_dbus *dbus = cula_container_of(listener, dbus, DBUS_INTERNAL.destroy);
+    cula_destroy_dbus(dbus);
+}
+
+struct cula_dbus_poll_setup {
+    struct cula_context *ctx;
+    struct cula_dbus *dbus;
+    int bus_fd;
+};
+
+static void cula_dbus_init_poll_task(void *arg) {
+    struct cula_dbus_poll_setup *setup = arg;
+    
+    struct cula_dbus_poll *dbus_poll = calloc(1, sizeof(struct cula_dbus_poll));
+    dbus_poll->dbus = setup->dbus;
+    
+    uv_poll_init(&setup->ctx->loop, &dbus_poll->poll_handle, setup->bus_fd);
+    dbus_poll->poll_handle.data = dbus_poll;
+    uv_poll_start(&dbus_poll->poll_handle, UV_READABLE, cula_dbus_on_poll);
+
+    setup->dbus->DBUS_INTERNAL.poll = dbus_poll;
+    
+    free(setup);
+}
 
 struct cula_dbus *cula_get_or_create_dbus(struct cula_context *ctx, enum cula_dbus_type bus_type) {
     if (!ctx) {
@@ -38,12 +80,33 @@ struct cula_dbus *cula_get_or_create_dbus(struct cula_context *ctx, enum cula_db
     }
     dbus->status = CULA_DBUS_STATUS_CONNECTED;
 
+    struct cula_dbus_poll *dbus_poll = calloc(1, sizeof(struct cula_dbus_poll));
+    dbus_poll->dbus = dbus;
+    
+    int bus_fd = sd_bus_get_fd(dbus->bus);
+    if (bus_fd >= 0) {
+        struct cula_dbus_poll_setup *setup = malloc(sizeof(struct cula_dbus_poll_setup));
+        setup->ctx = ctx;
+        setup->dbus = dbus;
+        setup->bus_fd = bus_fd;
+
+        cula_post_context(ctx, cula_dbus_init_poll_task, setup);
+    }
+
+    dbus->DBUS_INTERNAL.poll = dbus_poll;
+    cula_list_init(&dbus->DBUS_INTERNAL.calls);
+
     // Register service into context's service list
     struct cula_service *service = calloc(1, sizeof(struct cula_service));
     service->service_ptr = dbus;
     service->name = dbus_id;
+    cula_signal_init(&service->destroy_signal);
+
+    dbus->DBUS_INTERNAL.destroy.notify = destroy_dbus_instruction;
     dbus->service = service;
+
     cula_list_insert(&ctx->services, &service->link);
+    cula_signal_add(&service->destroy_signal, &dbus->DBUS_INTERNAL.destroy);
 
     return dbus;
 }
@@ -149,13 +212,6 @@ static void cula_dbus_call_task(int argc, void *argv[]) {
             sd_bus_error_free(&error);
             return;
         }
-
-        while (!call_ctx->reply) {
-            while (sd_bus_process(dbus->bus, NULL) > 0) {
-                // Flush
-            }
-            neco_yield();
-        }
     } else if (call_type == CULA_DBUS_CALL_TYPE_LISTEN) {
         sd_bus_slot *slot = NULL;
 
@@ -188,13 +244,6 @@ static void cula_dbus_call_task(int argc, void *argv[]) {
         }
 
         call_ctx->slot = slot;
-
-        while (call_ctx->slot != NULL) {
-            neco_yield(); 
-        }
-
-        sd_bus_slot_unref(call_ctx->slot);
-        call_ctx->slot = NULL;
     }
 }
 
@@ -219,6 +268,7 @@ struct cula_dbus_call_ctx *cula_create_dbus_call(struct cula_dbus *dbus, const c
     }
     call_ctx->message = m; 
 
+    cula_list_insert(&dbus->DBUS_INTERNAL.calls, &call_ctx->link);
     return call_ctx;
 }
 
@@ -229,7 +279,7 @@ struct cula_dbus_job_args {
 
 static void cula_dbus_job_callback(void *arg) {
     struct cula_dbus_job_args *args = arg;
-    neco_start(cula_dbus_call_task, 2, args->call_ctx, &args->type);
+    neco_start(cula_dbus_call_task, 2, args->call_ctx,&args->type);
     free(args);
 }
 
@@ -243,11 +293,29 @@ void cula_call_dbus(struct cula_context *ctx, struct cula_dbus_call_ctx *call_ct
     cula_post_context(ctx, cula_dbus_job_callback, args);
 }
 
-void cula_cancel_dbus_listen(struct cula_dbus_call_ctx *call_ctx) {
+void cula_destroy_dbus_call(struct cula_dbus_call_ctx *call_ctx) {
     if (!call_ctx) return;
+
     if (call_ctx->slot) {
         sd_bus_slot_unref(call_ctx->slot);
         call_ctx->slot = NULL;
+    }
+    cula_list_remove(&call_ctx->link);
+    free(call_ctx);
+}
+
+static void cula_on_poll_closed(uv_handle_t *handle) {
+    struct cula_dbus_poll *dbus_poll = handle->data;
+    free(dbus_poll->dbus);
+    free(dbus_poll);
+}
+
+static void cula_stop_poll(void *arg) {
+    struct cula_dbus_poll *poll = arg;
+
+    if (!uv_is_closing((uv_handle_t *)&poll->poll_handle)) {
+        uv_poll_stop(&poll->poll_handle);
+        uv_close((uv_handle_t *)&poll->poll_handle, cula_on_poll_closed);
     }
 }
 
@@ -256,10 +324,24 @@ void cula_destroy_dbus(struct cula_dbus *dbus) {
         return;
     }
 
-    if (dbus->bus) {
-        sd_bus_unref(dbus->bus);
+    struct cula_dbus_call_ctx *call_ctx, *tmp;
+    cula_list_for_each_safe(call_ctx, tmp, &dbus->DBUS_INTERNAL.calls, link) {
+        cula_destroy_dbus_call(call_ctx);
     }
 
     cula_list_remove(&dbus->service->link);
-    free(dbus);
+
+    if (dbus->bus) {
+        sd_bus_unref(dbus->bus);
+        dbus->bus = NULL;
+    }
+
+    if (dbus->DBUS_INTERNAL.poll) {
+        struct cula_dbus_poll *poll = dbus->DBUS_INTERNAL.poll;
+        dbus->DBUS_INTERNAL.poll = NULL;
+        
+        cula_post_context(dbus->context, cula_stop_poll, poll);
+    } else {
+        free(dbus);
+    }
 }

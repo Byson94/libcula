@@ -33,12 +33,19 @@ struct cula_dbus {
     enum cula_dbus_type bus_type;
     enum cula_dbus_status status;
     sd_bus *bus;
+
+    struct {
+        cula_list calls;
+        cula_listener destroy;
+        struct cula_dbus_poll *poll;
+    } DBUS_INTERNAL;
 };
 
 /**
  * @brief The call to make to the dbus.
  */
 struct cula_dbus_call_ctx {
+    cula_list link;
     struct cula_dbus *dbus;
     const char *destination;
     const char *path;
@@ -95,9 +102,9 @@ struct cula_dbus_call_ctx *cula_create_dbus_call(struct cula_dbus *dbus, const c
 void cula_call_dbus(struct cula_context *ctx, struct cula_dbus_call_ctx *call_ctx, enum cula_dbus_call_ctx_type type);
 
 /*
- * @breif Cancle a dbus listen. No-op if not listening.
+ * @breif Destroy a dbus call. 
  */
-void cula_cancel_dbus_listen(struct cula_dbus_call_ctx *call_ctx);
+void cula_destroy_dbus_call(struct cula_dbus_call_ctx *call_ctx);
 
 /**
  * @brief Destroy a D-Bus service instance and clean up resources.

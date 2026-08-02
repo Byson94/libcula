@@ -7,10 +7,13 @@
 #include <libcula/core.h>
 #include <libcula/services/dbus.h>
 
+static bool test_completed = false;
+
 static void result_notify(cula_listener *listener, void *data) {
     UNUSED(listener);
     struct cula_dbus_call_ctx *dbus_call = data;
-    printf("[%d] Got a result: '%s'\n", dbus_call->result, dbus_call->str_reply);
+    printf("[%d] Got a result: '%s'\n", dbus_call->result, dbus_call->str_reply ? dbus_call->str_reply : "(null)");
+    test_completed = true;
 }
 
 int main(void) {
@@ -25,6 +28,7 @@ int main(void) {
     struct cula_dbus *dbus = cula_get_or_create_dbus(ctx, CULA_DBUS_TYPE_SYSTEM);
     if (!dbus) {
         printf("Dbus failed to init!\n");
+        cula_destroy_context(ctx);
         return 1;
     }
 
@@ -40,9 +44,20 @@ int main(void) {
     cula_signal_add(&dbus_call->events.result, listener);
     cula_call_dbus(ctx, dbus_call, CULA_DBUS_CALL_TYPE_ONESHOT);
 
+    int timeout = 50;
+    while (!test_completed && timeout > 0) {
+        usleep(100000);
+        timeout--;
+    }
+
+    if (!test_completed) {
+        printf("Test timed out waiting for D-Bus response!\n");
+    }
+
     cula_destroy_dbus(dbus);
     cula_destroy_context(ctx);
-    printf("Test passed successfully!\n");
+    free(listener);
+
+    printf("Test finished.\n");
     return 0;
 }
-
