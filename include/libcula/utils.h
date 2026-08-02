@@ -38,16 +38,16 @@
 typedef struct cula_list {
     struct cula_list *prev;
     struct cula_list *next;
-} cula_list;
+} cula_list_t;
 
 typedef struct {
-    cula_list listener_list;
-} cula_signal;
+    cula_list_t listener_list;
+} cula_signal_t;
 
-typedef struct cula_listener cula_listener;
+typedef struct cula_listener cula_listener_t;
 struct cula_listener {
-    cula_list link;
-    void (*notify)(cula_listener *listener, void *data);
+    cula_list_t link;
+    void (*notify)(cula_listener_t *listener, void *data);
 };
 
 #define cula_container_of(ptr, sample, member) \
@@ -56,12 +56,12 @@ struct cula_listener {
 
 /* --- List Management Wrappers (Declarations Only) --- */
 
-void cula_list_init(cula_list *list);
-void cula_list_insert(cula_list *list, cula_list *elm);
-void cula_list_insert_list(cula_list *list, cula_list *other);
-void cula_list_remove(cula_list *elm);
-int cula_list_length(const cula_list *list);
-bool cula_list_empty(const cula_list *list);
+void cula_list_init(cula_list_t *list);
+void cula_list_insert(cula_list_t *list, cula_list_t *elm);
+void cula_list_insert_list(cula_list_t *list, cula_list_t *other);
+void cula_list_remove(cula_list_t *elm);
+int cula_list_length(const cula_list_t *list);
+bool cula_list_empty(const cula_list_t *list);
 
 /* --- Iteration Macros --- */
 
@@ -91,8 +91,8 @@ bool cula_list_empty(const cula_list *list);
 
 /* --- Signal Wrappers --- */
 
-void cula_signal_init(cula_signal *signal);
-void cula_signal_add(cula_signal *signal, cula_listener *listener);
-void cula_signal_emit(cula_signal *signal, void *data);
+void cula_signal_init(cula_signal_t *signal);
+void cula_signal_add(cula_signal_t *signal, cula_listener_t *listener);
+void cula_signal_emit(cula_signal_t *signal, void *data);
 
 #endif

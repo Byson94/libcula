@@ -9,7 +9,7 @@
 
 static bool test_completed = false;
 
-static void result_notify(cula_listener *listener, void *data) {
+static void result_notify(cula_listener_t *listener, void *data) {
     UNUSED(listener);
     struct cula_dbus_call_ctx *dbus_call = data;
     printf("[%d] Got a result: '%s'\n", dbus_call->result, dbus_call->str_reply ? dbus_call->str_reply : "(null)");
@@ -39,7 +39,7 @@ int main(void) {
         "GetUnit", "s", "ly@tty1.service"
     );
 
-    cula_listener *listener = calloc(1, sizeof(cula_listener));
+    cula_listener_t *listener = calloc(1, sizeof(cula_listener_t));
     listener->notify = result_notify;
     cula_signal_add(&dbus_call->events.result, listener);
     cula_call_dbus(ctx, dbus_call, CULA_DBUS_CALL_TYPE_ONESHOT);

@@ -10,7 +10,7 @@
 static void cula_async_cb(uv_async_t *handle) {
     struct cula_context *ctx = cula_container_of(handle, ctx, async_handle);
     
-    cula_list batch;
+    cula_list_t batch;
     cula_list_init(&batch);
 
     pthread_mutex_lock(&ctx->work_mutex);

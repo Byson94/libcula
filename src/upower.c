@@ -4,7 +4,7 @@
 #include "libcula/services/dbus.h"
 #include "libcula/utils.h"
 
-static void on_battery_change(cula_listener *listener, void *data) {
+static void on_battery_change(cula_listener_t *listener, void *data) {
     struct cula_upower *upower = cula_container_of(listener, upower, CULA_INTERNAL.on_battery);
     struct cula_dbus_call_ctx *call = data;
 
@@ -21,7 +21,7 @@ static void on_battery_change(cula_listener *listener, void *data) {
     }
 }
 
-static void percentage_change(cula_listener *listener, void *data) {
+static void percentage_change(cula_listener_t *listener, void *data) {
     struct cula_upower *upower = cula_container_of(listener, upower, CULA_INTERNAL.percentage);
     struct cula_dbus_call_ctx *call = data;
 

@@ -1,2 +1,10 @@
 build/
 compile_commands.json
+
+# Sphnix stuff
+venv/
+.venv/
+__pycache__/
+*.pyc
+docs/build/
+

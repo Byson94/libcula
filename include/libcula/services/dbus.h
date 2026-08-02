@@ -35,8 +35,8 @@ struct cula_dbus {
     sd_bus *bus;
 
     struct {
-        cula_list calls;
-        cula_listener destroy;
+        cula_list_t calls;
+        cula_listener_t destroy;
         struct cula_dbus_poll *poll;
     } DBUS_INTERNAL;
 };
@@ -45,7 +45,7 @@ struct cula_dbus {
  * @brief The call to make to the dbus.
  */
 struct cula_dbus_call_ctx {
-    cula_list link;
+    cula_list_t link;
     struct cula_dbus *dbus;
     const char *destination;
     const char *path;
@@ -59,7 +59,7 @@ struct cula_dbus_call_ctx {
     int result;
 
     struct {
-        cula_signal result;
+        cula_signal_t result;
     } events;
 };
 

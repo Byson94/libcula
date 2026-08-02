@@ -11,10 +11,10 @@
 #include "libcula/utils.h"
 
 struct cula_service {
-    cula_list link;
+    cula_list_t link;
     const char *name;
     void *service_ptr;
-    cula_signal destroy_signal;
+    cula_signal_t destroy_signal;
 };
 
 typedef void (*cula_work_cb)(void *arg);
@@ -22,18 +22,18 @@ typedef void (*cula_work_cb)(void *arg);
 struct cula_work_item {
     cula_work_cb callback;
     void *arg;
-    cula_list node;
+    cula_list_t node;
 };
 
 struct cula_context {
     uv_loop_t loop;
     pthread_t thread_id;
     bool running;
-    cula_list services;
+    cula_list_t services;
     uv_async_t async_handle;
 
     pthread_mutex_t work_mutex;
-    cula_list work_queue;
+    cula_list_t work_queue;
 };
 
 void cula_post_context(struct cula_context *ctx, cula_work_cb cb, void *arg);

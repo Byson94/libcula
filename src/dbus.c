@@ -24,7 +24,7 @@ static void cula_dbus_on_poll(uv_poll_t *handle, int status, int events) {
     }
 }
 
-static void destroy_dbus_instruction(cula_listener *listener, void *data) {
+static void destroy_dbus_instruction(cula_listener_t *listener, void *data) {
     UNUSED(data);
     struct cula_dbus *dbus = cula_container_of(listener, dbus, DBUS_INTERNAL.destroy);
     cula_destroy_dbus(dbus);

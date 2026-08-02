@@ -20,7 +20,7 @@ enum cula_performance_degredation_reason {
 // -- Init / Destroy
 
 struct cula_upower {
-    cula_list link;
+    cula_list_t link;
     struct cula_context *context;
     struct cula_dbus *dbus;
 
@@ -30,13 +30,13 @@ struct cula_upower {
     } data;
 
     struct {
-        cula_signal percentage_changed;
-        cula_signal on_battery_changed;
+        cula_signal_t percentage_changed;
+        cula_signal_t on_battery_changed;
     } events;
 
     struct {
-        cula_listener percentage;
-        cula_listener on_battery;
+        cula_listener_t percentage;
+        cula_listener_t on_battery;
         struct cula_dbus_call_ctx *perc_ctx;
         struct cula_dbus_call_ctx *onbatt_ctx;
     } CULA_INTERNAL;
