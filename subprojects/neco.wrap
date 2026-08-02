@@ -1,0 +1,6 @@
+[wrap-git]
+directory = neco
+url = https://github.com/tidwall/neco
+revision = v0.3.2
+depth = 1
+patch_directory = neco
