@@ -280,24 +280,39 @@
 <dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus_call_ctx</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">cula_list_t</span><span class="w"> </span><span class="n">link</span><span class="p">;</span>
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus</span><span class="w"> </span><span class="o">*</span><span class="n">dbus</span><span class="p">;</span>
+
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">destination</span><span class="p">;</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">;</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">interface</span><span class="p">;</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">method</span><span class="p">;</span>
 <span class="w">    </span><span class="n">sd_bus_message</span><span class="w"> </span><span class="o">*</span><span class="n">message</span><span class="p">;</span>
-
 <span class="w">    </span><span class="n">sd_bus_slot</span><span class="w"> </span><span class="o">*</span><span class="n">slot</span><span class="p">;</span>
-<span class="w">    </span><span class="n">sd_bus_message</span><span class="w"> </span><span class="o">*</span><span class="n">reply</span><span class="p">;</span>
-<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">str_reply</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cula_list_t</span><span class="w"> </span><span class="n">results</span><span class="p">;</span>
 
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">result</span><span class="p">;</span><span class="w"> </span><span class="c1">// cula_dbus_call_ctx</span>
+<span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">result</span><span class="p">;</span><span class="w"> </span><span class="c1">// cula_dbus_call_result</span>
 <span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">events</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
 </div>
 <p>The call to make to the dbus. </p>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv421cula_dbus_call_result">
+<span id="_CPPv321cula_dbus_call_result"></span><span id="_CPPv221cula_dbus_call_result"></span><span id="cula_dbus_call_result"></span><span class="target" id="structcula__dbus__call__result"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_dbus_call_result</span></span></span><a class="headerlink" href="#_CPPv421cula_dbus_call_result" title="Link to this definition">¶</a><br /></dt>
+<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus_call_result</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cula_list_t</span><span class="w"> </span><span class="n">link</span><span class="p">;</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus_call_ctx</span><span class="w"> </span><span class="o">*</span><span class="n">call</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Result and Reply</span>
+<span class="w">    </span><span class="n">sd_bus_message</span><span class="w"> </span><span class="o">*</span><span class="n">reply</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">str_reply</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The result of the dbus call. </p>
 </dd></dl>
 
 <dl class="cpp enum">
@@ -480,6 +495,7 @@
 <li><a class="reference internal" href="#data-types">Data Types</a><ul>
 <li><a class="reference internal" href="#_CPPv49cula_dbus"><code class="docutils literal notranslate"><span class="pre">cula_dbus</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv418cula_dbus_call_ctx"><code class="docutils literal notranslate"><span class="pre">cula_dbus_call_ctx</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv421cula_dbus_call_result"><code class="docutils literal notranslate"><span class="pre">cula_dbus_call_result</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv414cula_dbus_type"><code class="docutils literal notranslate"><span class="pre">cula_dbus_type</span></code></a><ul>
 <li><a class="reference internal" href="#_CPPv4N14cula_dbus_type21CULA_DBUS_TYPE_SYSTEME"><code class="docutils literal notranslate"><span class="pre">CULA_DBUS_TYPE_SYSTEM</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N14cula_dbus_type22CULA_DBUS_TYPE_SESSIONE"><code class="docutils literal notranslate"><span class="pre">CULA_DBUS_TYPE_SESSION</span></code></a></li>

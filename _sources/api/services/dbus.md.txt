@@ -20,6 +20,15 @@
 ```
 ````
 
+````{doxygenstruct} cula_dbus_call_result
+```{literalinclude} ../../../../include/libcula/services/dbus.h
+:language: c
+:start-at: struct cula_dbus_call_result {
+:end-at: };
+:dedent: 0
+```
+````
+
 ```{doxygenenum} cula_dbus_type
 ```
 
