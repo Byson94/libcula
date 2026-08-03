@@ -385,35 +385,36 @@ where you store all the data.</p>
 <span class="linenos">35</span><span class="w">    </span>
 <span class="linenos">36</span><span class="w">    </span><span class="c1">// On creation itself, the upower service will fetch</span>
 <span class="linenos">37</span><span class="w">    </span><span class="c1">// all the initial data. You can access it directly here.</span>
-<span class="linenos">38</span><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_on_batter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">upower</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">on_battery</span><span class="p">;</span>
-<span class="linenos">39</span><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">batt_perc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">upower</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">percentage</span><span class="p">;</span>
-<span class="linenos">40</span>
-<span class="linenos">41</span><span class="w">    </span><span class="c1">// Now, we can link to the events</span>
-<span class="linenos">42</span><span class="w">    </span><span class="n">upower_handler</span><span class="o">-&gt;</span><span class="n">percentage</span><span class="p">.</span><span class="n">notify</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">percentage_notify</span><span class="p">;</span>
-<span class="linenos">43</span><span class="w">    </span><span class="n">cula_signal_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">upower</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">.</span><span class="n">percentage_changed</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">upower_handler</span><span class="o">-&gt;</span><span class="n">percentage</span><span class="p">);</span>
-<span class="linenos">44</span>
-<span class="linenos">45</span><span class="w">    </span><span class="c1">// Shutdown</span>
-<span class="linenos">46</span><span class="w">    </span><span class="n">cula_list_remove</span><span class="p">(</span><span class="o">&amp;</span><span class="n">upower_handler</span><span class="o">-&gt;</span><span class="n">percentage</span><span class="p">.</span><span class="n">link</span><span class="p">);</span>
-<span class="linenos">47</span><span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">upower_handler</span><span class="p">);</span>
-<span class="linenos">48</span><span class="w">    </span><span class="n">cula_destroy_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-<span class="linenos">49</span>
-<span class="linenos">50</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="linenos">51</span><span class="p">}</span>
-<span class="linenos">52</span>
-<span class="linenos">53</span><span class="kt">void</span><span class="w"> </span><span class="nf">percentage_notify</span><span class="p">(</span><span class="n">cula_listener_t</span><span class="w"> </span><span class="o">*</span><span class="n">listener</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="linenos">54</span><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">upower_handler</span><span class="w"> </span><span class="o">*</span><span class="n">upower_handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
-<span class="linenos">55</span><span class="w">        </span><span class="n">cula_container_of</span><span class="p">(</span><span class="n">listener</span><span class="p">,</span><span class="w"> </span><span class="n">upower_handler</span><span class="p">,</span><span class="w"> </span><span class="n">percentage</span><span class="p">);</span>
-<span class="linenos">56</span>
-<span class="linenos">57</span><span class="w">    </span><span class="c1">// The data can be anything. Make sure to check the API documentation</span>
-<span class="linenos">58</span><span class="w">    </span><span class="c1">// of the event to know which structure it provides, if it provides any.</span>
-<span class="linenos">59</span><span class="w">    </span><span class="c1">// UPower Service passes the &#39;cula_upower&#39; as data.</span>
-<span class="linenos">60</span><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_upower</span><span class="w"> </span><span class="o">*</span><span class="n">upower</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
-<span class="linenos">61</span>
-<span class="linenos">62</span><span class="w">    </span><span class="c1">// The upower-&gt;data now contains fresh data. Do whatever with it,</span>
-<span class="linenos">63</span><span class="w">    </span><span class="c1">// like storing it in a structure. This is why we recommended using</span>
-<span class="linenos">64</span><span class="w">    </span><span class="c1">// a dedicated structure (like upower_handler) instead of calloc&#39;ing a </span>
-<span class="linenos">65</span><span class="w">    </span><span class="c1">// new &#39;cula_listener_t&#39; every time.</span>
-<span class="linenos">66</span><span class="p">}</span>
+<span class="linenos">38</span><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_on_battery</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">upower</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">on_battery</span><span class="p">;</span>
+<span class="linenos">39</span><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_lid_closed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">upower</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">lid_closed</span><span class="p">;</span>
+<span class="linenos">40</span><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_lid_present</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">upower</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">lid_present</span><span class="p">;</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span><span class="w">    </span><span class="c1">// Now, we can link to the events</span>
+<span class="linenos">43</span><span class="w">    </span><span class="n">upower_handler</span><span class="o">-&gt;</span><span class="n">percentage</span><span class="p">.</span><span class="n">notify</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">percentage_notify</span><span class="p">;</span>
+<span class="linenos">44</span><span class="w">    </span><span class="n">cula_signal_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">upower</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">.</span><span class="n">on_battery_changed</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">upower_handler</span><span class="o">-&gt;</span><span class="n">percentage</span><span class="p">);</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="w">    </span><span class="c1">// Shutdown</span>
+<span class="linenos">47</span><span class="w">    </span><span class="n">cula_list_remove</span><span class="p">(</span><span class="o">&amp;</span><span class="n">upower_handler</span><span class="o">-&gt;</span><span class="n">percentage</span><span class="p">.</span><span class="n">link</span><span class="p">);</span>
+<span class="linenos">48</span><span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">upower_handler</span><span class="p">);</span>
+<span class="linenos">49</span><span class="w">    </span><span class="n">cula_destroy_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+<span class="linenos">50</span>
+<span class="linenos">51</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">52</span><span class="p">}</span>
+<span class="linenos">53</span>
+<span class="linenos">54</span><span class="kt">void</span><span class="w"> </span><span class="nf">percentage_notify</span><span class="p">(</span><span class="n">cula_listener_t</span><span class="w"> </span><span class="o">*</span><span class="n">listener</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">55</span><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">upower_handler</span><span class="w"> </span><span class="o">*</span><span class="n">upower_handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="linenos">56</span><span class="w">        </span><span class="n">cula_container_of</span><span class="p">(</span><span class="n">listener</span><span class="p">,</span><span class="w"> </span><span class="n">upower_handler</span><span class="p">,</span><span class="w"> </span><span class="n">percentage</span><span class="p">);</span>
+<span class="linenos">57</span>
+<span class="linenos">58</span><span class="w">    </span><span class="c1">// The data can be anything. Make sure to check the API documentation</span>
+<span class="linenos">59</span><span class="w">    </span><span class="c1">// of the event to know which structure it provides, if it provides any.</span>
+<span class="linenos">60</span><span class="w">    </span><span class="c1">// UPower Service passes the &#39;cula_upower&#39; as data.</span>
+<span class="linenos">61</span><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_upower</span><span class="w"> </span><span class="o">*</span><span class="n">upower</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="linenos">62</span>
+<span class="linenos">63</span><span class="w">    </span><span class="c1">// The upower-&gt;data now contains fresh data. Do whatever with it,</span>
+<span class="linenos">64</span><span class="w">    </span><span class="c1">// like storing it in a structure. This is why we recommended using</span>
+<span class="linenos">65</span><span class="w">    </span><span class="c1">// a dedicated structure (like upower_handler) instead of calloc&#39;ing a </span>
+<span class="linenos">66</span><span class="w">    </span><span class="c1">// new &#39;cula_listener_t&#39; every time.</span>
+<span class="linenos">67</span><span class="p">}</span>
 </pre></div>
 </div>
 </section>

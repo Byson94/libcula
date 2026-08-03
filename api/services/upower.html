@@ -251,6 +251,10 @@
         <article role="main" id="furo-main-content">
           <section id="upower">
 <h1>UPower<a class="headerlink" href="#upower" title="Link to this heading">¶</a></h1>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>The UPower service is incomplete.</p>
+</div>
 <section id="data-types">
 <h2>Data Types<a class="headerlink" href="#data-types" title="Link to this heading">¶</a></h2>
 <dl class="cpp struct">
@@ -260,22 +264,24 @@
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_service</span><span class="w"> </span><span class="o">*</span><span class="n">service</span><span class="p">;</span>
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_context</span><span class="w"> </span><span class="o">*</span><span class="n">context</span><span class="p">;</span>
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus</span><span class="w"> </span><span class="o">*</span><span class="n">dbus</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cula_list_t</span><span class="w"> </span><span class="n">devices</span><span class="p">;</span><span class="w"> </span><span class="c1">// cula_upower_device</span>
 
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">percentage</span><span class="p">;</span>
 <span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">on_battery</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">lid_closed</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">lid_present</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
 
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">percentage_changed</span><span class="p">;</span>
-<span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">on_battery_changed</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">on_battery_changed</span><span class="p">;</span><span class="w"> </span><span class="c1">// cula_upower</span>
+<span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">lid_closed_changed</span><span class="p">;</span><span class="w"> </span><span class="c1">// cula_upower </span>
+<span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">lid_present_changed</span><span class="p">;</span><span class="w"> </span><span class="c1">// cula_upower</span>
 <span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">events</span><span class="p">;</span>
 
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">cula_listener_t</span><span class="w"> </span><span class="n">percentage</span><span class="p">;</span>
-<span class="w">        </span><span class="n">cula_listener_t</span><span class="w"> </span><span class="n">on_battery</span><span class="p">;</span>
-<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus_call_ctx</span><span class="w"> </span><span class="o">*</span><span class="n">perc_ctx</span><span class="p">;</span>
-<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus_call_ctx</span><span class="w"> </span><span class="o">*</span><span class="n">onbatt_ctx</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cula_listener_t</span><span class="w"> </span><span class="n">onchange</span><span class="p">;</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus_call_ctx</span><span class="w"> </span><span class="o">*</span><span class="n">onchange_cctx</span><span class="p">;</span>
+
 <span class="w">        </span><span class="n">cula_listener_t</span><span class="w"> </span><span class="n">destroy</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">CULA_INTERNAL</span><span class="p">;</span>
 <span class="p">};</span>
@@ -285,24 +291,96 @@
 <p>The UPower Daemon must be active and running for the service to work properly. </p>
 </dd></dl>
 
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv418cula_upower_device">
+<span id="_CPPv318cula_upower_device"></span><span id="_CPPv218cula_upower_device"></span><span id="cula_upower_device"></span><span class="target" id="structcula__upower__device"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_upower_device</span></span></span><a class="headerlink" href="#_CPPv418cula_upower_device" title="Link to this definition">¶</a><br /></dt>
+<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_upower_device</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_upower</span><span class="w"> </span><span class="o">*</span><span class="n">upower</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">percentage</span><span class="p">;</span><span class="w"> </span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">time_to_empty</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">time_to_full</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">native_path</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">charge_cycles</span><span class="p">;</span><span class="w"> </span><span class="c1">// -1 if unsupported</span>
+
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_present</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">power_supply</span><span class="p">;</span><span class="w"> </span><span class="c1">// i.e is primary power source?</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">property_changed</span><span class="p">;</span><span class="w"> </span><span class="c1">// cula_upower_root_property_change_evt</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">events</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>A upower device like “BAT0”. </p>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv438cula_upower_device_property_change_evt">
+<span id="_CPPv338cula_upower_device_property_change_evt"></span><span id="_CPPv238cula_upower_device_property_change_evt"></span><span id="cula_upower_device_property_change_evt"></span><span class="target" id="structcula__upower__device__property__change__evt"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_upower_device_property_change_evt</span></span></span><a class="headerlink" href="#_CPPv438cula_upower_device_property_change_evt" title="Link to this definition">¶</a><br /></dt>
+<dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_upower_device_property_change_evt</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="n">cula_upower_device_property_type</span><span class="w"> </span><span class="n">type</span><span class="p">;</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_upower_device</span><span class="w"> </span><span class="o">*</span><span class="n">device</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Cula device property change event. </p>
+</dd></dl>
+
 <dl class="cpp enum">
-<dt class="sig sig-object cpp" id="_CPPv435cula_performance_degredation_reason">
-<span id="_CPPv335cula_performance_degredation_reason"></span><span id="_CPPv235cula_performance_degredation_reason"></span><span class="target" id="upower_8h_1afdff8c08635e9729aa84f5c1b5b4e0f4"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_performance_degredation_reason</span></span></span><a class="headerlink" href="#_CPPv435cula_performance_degredation_reason" title="Link to this definition">¶</a><br /></dt>
-<dd><p>Reason for performance degredation. </p>
+<dt class="sig sig-object cpp" id="_CPPv432cula_upower_device_property_type">
+<span id="_CPPv332cula_upower_device_property_type"></span><span id="_CPPv232cula_upower_device_property_type"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22c"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_upower_device_property_type</span></span></span><a class="headerlink" href="#_CPPv432cula_upower_device_property_type" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Types of device UPower properties. </p>
 <p><em>Values:</em></p>
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N35cula_performance_degredation_reason25CULA_PDR_HIGH_TEMPERATUREE">
-<span id="_CPPv3N35cula_performance_degredation_reason25CULA_PDR_HIGH_TEMPERATUREE"></span><span id="_CPPv2N35cula_performance_degredation_reason25CULA_PDR_HIGH_TEMPERATUREE"></span><span class="target" id="upower_8h_1afdff8c08635e9729aa84f5c1b5b4e0f4abbe5bb202da572213cb3ce9914b6e1cd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_PDR_HIGH_TEMPERATURE</span></span></span><a class="headerlink" href="#_CPPv4N35cula_performance_degredation_reason25CULA_PDR_HIGH_TEMPERATUREE" title="Link to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_PERCENTAGEE">
+<span id="_CPPv3N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_PERCENTAGEE"></span><span id="_CPPv2N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_PERCENTAGEE"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22caa1f7b909a4bd8d1c6a1b6f6fdd096257"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_PERCENTAGE</span></span></span><a class="headerlink" href="#_CPPv4N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_PERCENTAGEE" title="Link to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N35cula_performance_degredation_reason21CULA_PDR_LAP_DETECTEDE">
-<span id="_CPPv3N35cula_performance_degredation_reason21CULA_PDR_LAP_DETECTEDE"></span><span id="_CPPv2N35cula_performance_degredation_reason21CULA_PDR_LAP_DETECTEDE"></span><span class="target" id="upower_8h_1afdff8c08635e9729aa84f5c1b5b4e0f4a6e2481097ccbe950a8b767f64a1e71a5"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_PDR_LAP_DETECTED</span></span></span><a class="headerlink" href="#_CPPv4N35cula_performance_degredation_reason21CULA_PDR_LAP_DETECTEDE" title="Link to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N32cula_upower_device_property_type33CULA_UPOWER_DEVICE_PROPERTY_STATEE">
+<span id="_CPPv3N32cula_upower_device_property_type33CULA_UPOWER_DEVICE_PROPERTY_STATEE"></span><span id="_CPPv2N32cula_upower_device_property_type33CULA_UPOWER_DEVICE_PROPERTY_STATEE"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22caaf7d337cacf5bb86761ccf79e5e6b004"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_STATE</span></span></span><a class="headerlink" href="#_CPPv4N32cula_upower_device_property_type33CULA_UPOWER_DEVICE_PROPERTY_STATEE" title="Link to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N35cula_performance_degredation_reason13CULA_PDR_NONEE">
-<span id="_CPPv3N35cula_performance_degredation_reason13CULA_PDR_NONEE"></span><span id="_CPPv2N35cula_performance_degredation_reason13CULA_PDR_NONEE"></span><span class="target" id="upower_8h_1afdff8c08635e9729aa84f5c1b5b4e0f4a68ef43259bb365331f5bd24d6a78ee2b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_PDR_NONE</span></span></span><a class="headerlink" href="#_CPPv4N35cula_performance_degredation_reason13CULA_PDR_NONEE" title="Link to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_EMPTYE">
+<span id="_CPPv3N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_EMPTYE"></span><span id="_CPPv2N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_EMPTYE"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22ca755e18727704bd49f7fdc1829ba8b6b5"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_EMPTY</span></span></span><a class="headerlink" href="#_CPPv4N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_EMPTYE" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_FULLE">
+<span id="_CPPv3N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_FULLE"></span><span id="_CPPv2N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_FULLE"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22cab8c12960309b75dc669daff7b14cf31e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_FULL</span></span></span><a class="headerlink" href="#_CPPv4N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_FULLE" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N32cula_upower_device_property_type39CULA_UPOWER_DEVICE_PROPERTY_NATIVE_PATHE">
+<span id="_CPPv3N32cula_upower_device_property_type39CULA_UPOWER_DEVICE_PROPERTY_NATIVE_PATHE"></span><span id="_CPPv2N32cula_upower_device_property_type39CULA_UPOWER_DEVICE_PROPERTY_NATIVE_PATHE"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22ca4cb40823ad4f3af935d81de4518c5760"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_NATIVE_PATH</span></span></span><a class="headerlink" href="#_CPPv4N32cula_upower_device_property_type39CULA_UPOWER_DEVICE_PROPERTY_NATIVE_PATHE" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N32cula_upower_device_property_type36CULA_UPOWER_DEVICE_PROPERTY_CAPACITYE">
+<span id="_CPPv3N32cula_upower_device_property_type36CULA_UPOWER_DEVICE_PROPERTY_CAPACITYE"></span><span id="_CPPv2N32cula_upower_device_property_type36CULA_UPOWER_DEVICE_PROPERTY_CAPACITYE"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22ca78fec890b2a37e2cb214212ec2cd3e12"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_CAPACITY</span></span></span><a class="headerlink" href="#_CPPv4N32cula_upower_device_property_type36CULA_UPOWER_DEVICE_PROPERTY_CAPACITYE" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_CHARGE_CYCLESE">
+<span id="_CPPv3N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_CHARGE_CYCLESE"></span><span id="_CPPv2N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_CHARGE_CYCLESE"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22cab74d00897531d6224ef208777579dfa7"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_CHARGE_CYCLES</span></span></span><a class="headerlink" href="#_CPPv4N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_CHARGE_CYCLESE" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_IS_PRESENTE">
+<span id="_CPPv3N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_IS_PRESENTE"></span><span id="_CPPv2N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_IS_PRESENTE"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22ca8426cfec033c2b7881c51aacbe6a8ac6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_IS_PRESENT</span></span></span><a class="headerlink" href="#_CPPv4N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_IS_PRESENTE" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_POWER_SUPPLYE">
+<span id="_CPPv3N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_POWER_SUPPLYE"></span><span id="_CPPv2N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_POWER_SUPPLYE"></span><span class="target" id="upower_8h_1a71666d0fd1be42a3cf2b083cae8ab22ca5d99638fc1573f53638c110eea21bfa4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_POWER_SUPPLY</span></span></span><a class="headerlink" href="#_CPPv4N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_POWER_SUPPLYE" title="Link to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -391,10 +469,18 @@
 <li><a class="reference internal" href="#">UPower</a><ul>
 <li><a class="reference internal" href="#data-types">Data Types</a><ul>
 <li><a class="reference internal" href="#_CPPv411cula_upower"><code class="docutils literal notranslate"><span class="pre">cula_upower</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv435cula_performance_degredation_reason"><code class="docutils literal notranslate"><span class="pre">cula_performance_degredation_reason</span></code></a><ul>
-<li><a class="reference internal" href="#_CPPv4N35cula_performance_degredation_reason25CULA_PDR_HIGH_TEMPERATUREE"><code class="docutils literal notranslate"><span class="pre">CULA_PDR_HIGH_TEMPERATURE</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N35cula_performance_degredation_reason21CULA_PDR_LAP_DETECTEDE"><code class="docutils literal notranslate"><span class="pre">CULA_PDR_LAP_DETECTED</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N35cula_performance_degredation_reason13CULA_PDR_NONEE"><code class="docutils literal notranslate"><span class="pre">CULA_PDR_NONE</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv418cula_upower_device"><code class="docutils literal notranslate"><span class="pre">cula_upower_device</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv438cula_upower_device_property_change_evt"><code class="docutils literal notranslate"><span class="pre">cula_upower_device_property_change_evt</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv432cula_upower_device_property_type"><code class="docutils literal notranslate"><span class="pre">cula_upower_device_property_type</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_PERCENTAGEE"><code class="docutils literal notranslate"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_PERCENTAGE</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N32cula_upower_device_property_type33CULA_UPOWER_DEVICE_PROPERTY_STATEE"><code class="docutils literal notranslate"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_STATE</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_EMPTYE"><code class="docutils literal notranslate"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_EMPTY</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_FULLE"><code class="docutils literal notranslate"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_TIME_TO_FULL</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N32cula_upower_device_property_type39CULA_UPOWER_DEVICE_PROPERTY_NATIVE_PATHE"><code class="docutils literal notranslate"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_NATIVE_PATH</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N32cula_upower_device_property_type36CULA_UPOWER_DEVICE_PROPERTY_CAPACITYE"><code class="docutils literal notranslate"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_CAPACITY</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N32cula_upower_device_property_type41CULA_UPOWER_DEVICE_PROPERTY_CHARGE_CYCLESE"><code class="docutils literal notranslate"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_CHARGE_CYCLES</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N32cula_upower_device_property_type38CULA_UPOWER_DEVICE_PROPERTY_IS_PRESENTE"><code class="docutils literal notranslate"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_IS_PRESENT</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N32cula_upower_device_property_type40CULA_UPOWER_DEVICE_PROPERTY_POWER_SUPPLYE"><code class="docutils literal notranslate"><span class="pre">CULA_UPOWER_DEVICE_PROPERTY_POWER_SUPPLY</span></code></a></li>
 </ul>
 </li>
 </ul>
