@@ -28,8 +28,6 @@ breathe_projects = {
     "libcula": "../xml"
 }
 breathe_default_project = "libcula"
-
-templates_path = ['_templates']
 exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
@@ -50,6 +48,5 @@ html_theme_options = {
     "source_directory": "docs/source",
 }
 
-html_static_path = ['_static']
 html_title = "libcula docs"
 

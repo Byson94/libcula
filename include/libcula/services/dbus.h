@@ -59,7 +59,7 @@ struct cula_dbus_call_ctx {
     int result;
 
     struct {
-        cula_signal_t result;
+        cula_signal_t result; // cula_dbus_call_ctx
     } events;
 };
 
@@ -88,14 +88,17 @@ struct cula_dbus *cula_get_or_create_dbus(struct cula_context *ctx, enum cula_db
  * @param path Path of call (e.g. "/org/freedesktop/UPower/devices/battery_BAT0").
  * @param iface Interface of call (e.g. "org.freedesktop.UPower.Device").
  * @param method Method of the call (e.g. "Refresh").
- * @param types Types.
- * @param ... Other params.
+ * @param types Types of the va_args.
+ * @param ... The va_args.
  */
 struct cula_dbus_call_ctx *cula_create_dbus_call(struct cula_dbus *dbus, const char *dest, const char *path, 
                           const char *iface, const char *method, const char *types, ...);
 
 /**
  * Make a call to the dbus with the specified call context.
+ *
+ * The result is handled by the `events->result` signal in the call context.
+ * Make sure to hook into it.
  *
  * @param call_ctx The call context with call info.
  * @param type The type of call to make.

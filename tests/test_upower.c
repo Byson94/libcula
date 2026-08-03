@@ -16,7 +16,6 @@ int main(void) {
 
     struct cula_upower *upower = cula_get_or_create_upower(ctx);
     printf("Value of on battery: %d\n", upower->data.on_battery);
-    printf("Value of persentage: %f\n", upower->data.percentage);
 
     cula_destroy_context(ctx);
     printf("Test passed successfully!\n");

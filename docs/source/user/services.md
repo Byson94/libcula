@@ -158,12 +158,13 @@ int main() {
     
     // On creation itself, the upower service will fetch
     // all the initial data. You can access it directly here.
-    bool is_on_batter = upower->data.on_battery;
-    double batt_perc = upower->data.percentage;
+    bool is_on_battery = upower->data.on_battery;
+    bool is_lid_closed = upower->data.lid_closed;
+    bool is_lid_present = upower->data.lid_present;
 
     // Now, we can link to the events
     upower_handler->percentage.notify = percentage_notify;
-    cula_signal_add(&upower->events.percentage_changed, &upower_handler->percentage);
+    cula_signal_add(&upower->events.on_battery_changed, &upower_handler->percentage);
 
     // Shutdown
     cula_list_remove(&upower_handler->percentage.link);
