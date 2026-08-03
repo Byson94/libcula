@@ -36,7 +36,40 @@ starting out. We can look at a few examples of it later.
 
 ## Event System
 
-In libcula, a signal is of the type `cula_signal_t`.
+Here is a brief summary of how the event system works. In libcula, a signal is of the type `cula_signal_t`.
+To connect to a signal, you need a `cula_listener_t`. You can attach a callback function to the listener
+by adding it to the `.notify` field.
+
+```{code-block} c
+:linenos:
+
+#include <stdlib.h>
+
+// Your callback function
+void listen_handler(cula_listener_t listener, void *data) {
+    return;
+}
+
+// Attaching it to a listener
+cula_listener_t my_listener = calloc(1, sizeof(cula_listener_t));
+my_listener.notify = listen_handler;
+```
+
+Now that you have a listener, you connect it to a signal with the `cula_signal_add` function:
+
+```{code-block} c
+:linenos:
+:emphasize-lines: 4
+
+cula_listener_t my_listener = calloc(1, sizeof(cula_listener_t));
+my_listener.notify = listen_handler;
+
+cula_signal_add(the_event_signal, my_listener);
+```
+
+Don't worry about where `the_event_signal` came from. The signals are usually provided in the service
+structure. As its a brief explanation, I **don't** expect you to understand all of it, and its fine.
+You'll understand it once you see a more elaborate explanation later with examples.
 
 ## Storing Context
 

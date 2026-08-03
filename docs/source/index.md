@@ -11,7 +11,8 @@ Highly performant and concurrent (C)ollection of (U)seful (L)inux (A)bstractions
 
 user/overview
 user/basics
-user/example
+user/services
+user/utils
 ```
 
 ```{toctree}
