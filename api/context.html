@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="prev" title="Cula Utils" href="../user/utils.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Cula Utils" href="utils.html"><link rel="prev" title="Cula Utils" href="../user/utils.html">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>TODO - libcula docs</title>
+        <title>Cula Context - libcula docs</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -173,7 +173,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
@@ -200,7 +200,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">TODO</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Cula Context</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Cula Utils</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="services/index.html">Cula Services</a><input aria-label="Toggle navigation of Cula Services" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="services/dbus.html">DBus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="services/upower.html">UPower</a></li>
+</ul>
+</li>
 </ul>
 
 </div>
@@ -221,12 +227,12 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="https://github.com/byson94/lubcula/blob/main/docs/source/api/todo.md?plain=true" title="View this page">
+  <a class="muted-link" href="https://github.com/byson94/lubcula/blob/main/docs/source/api/context.md?plain=true" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
 </div><div class="edit-this-page">
-  <a class="muted-link" href="https://github.com/byson94/lubcula/edit/main/docs/source/api/todo.md" rel="edit" title="Edit this page">
+  <a class="muted-link" href="https://github.com/byson94/lubcula/edit/main/docs/source/api/context.md" rel="edit" title="Edit this page">
     <svg><use href="#svg-pencil"></use></svg>
     <span class="visually-hidden">Edit this page</span>
   </a>
@@ -238,14 +244,62 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="todo">
-<h1>TODO<a class="headerlink" href="#todo" title="Link to this heading">¶</a></h1>
-<p>THis is a todo page.</p>
+          <section id="cula-context">
+<h1>Cula Context<a class="headerlink" href="#cula-context" title="Link to this heading">¶</a></h1>
+<section id="data-types">
+<h2>Data Types<a class="headerlink" href="#data-types" title="Link to this heading">¶</a></h2>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv412cula_context">
+<span id="_CPPv312cula_context"></span><span id="_CPPv212cula_context"></span><span id="cula_context"></span><span class="target" id="structcula__context"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_context</span></span></span><a class="headerlink" href="#_CPPv412cula_context" title="Link to this definition">¶</a><br /></dt>
+<dd><p>The core cula context. </p>
+</dd></dl>
+
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h2>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv419cula_create_contextv">
+<span id="_CPPv319cula_create_contextv"></span><span id="_CPPv219cula_create_contextv"></span><span id="cula_create_context__void"></span><span class="target" id="include_2libcula_2core_8h_1a957aa622c1a0760f457f31b39f49081a"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv412cula_context" title="cula_context"><span class="n"><span class="pre">cula_context</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cula_create_context</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419cula_create_contextv" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Create a new cula context. Can be NULL on failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">struct</span> <a class="reference internal" href="#structcula__context"><span class="std std-ref"><span class="pre">cula_context</span></span></a> <span class="pre">*</span></code> Newly allocated, inactive, cula context. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv416cula_run_contextP12cula_context">
+<span id="_CPPv316cula_run_contextP12cula_context"></span><span id="_CPPv216cula_run_contextP12cula_context"></span><span id="cula_run_context__cula_contextP"></span><span class="target" id="include_2libcula_2core_8h_1a233729ed1eba663e618b10b9ce6113f3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_run_context</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv412cula_context" title="cula_context"><span class="n"><span class="pre">cula_context</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">ctx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416cula_run_contextP12cula_context" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Run the provided cula context.</p>
+<p>This splits cula into a parallel thread and starts the main loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ctx</strong> – The inactive <a class="reference internal" href="#structcula__context"><span class="std std-ref">cula_context</span></a>. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Exit status as int. Non-0 status means error. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv420cula_destroy_contextP12cula_context">
+<span id="_CPPv320cula_destroy_contextP12cula_context"></span><span id="_CPPv220cula_destroy_contextP12cula_context"></span><span id="cula_destroy_context__cula_contextP"></span><span class="target" id="include_2libcula_2core_8h_1a969328aa555fdca6f946552adc0bc028"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_destroy_context</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv412cula_context" title="cula_context"><span class="n"><span class="pre">cula_context</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">ctx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420cula_destroy_contextP12cula_context" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Destory the provided cula context. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ctx</strong> – The running <a class="reference internal" href="#structcula__context"><span class="std std-ref">cula_context</span></a>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
         </article>
@@ -253,7 +307,15 @@
       <footer>
         
         <div class="related-pages">
-          
+          <a class="next-page" href="utils.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Cula Utils</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
           <a class="prev-page" href="../user/utils.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
@@ -286,8 +348,36 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Cula Context</a><ul>
+<li><a class="reference internal" href="#data-types">Data Types</a><ul>
+<li><a class="reference internal" href="#_CPPv412cula_context"><code class="docutils literal notranslate"><span class="pre">cula_context</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api">API</a><ul>
+<li><a class="reference internal" href="#_CPPv419cula_create_contextv"><code class="docutils literal notranslate"><span class="pre">cula_create_context()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv416cula_run_contextP12cula_context"><code class="docutils literal notranslate"><span class="pre">cula_run_context()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv420cula_destroy_contextP12cula_context"><code class="docutils literal notranslate"><span class="pre">cula_destroy_context()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

@@ -200,7 +200,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/todo.html">TODO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/context.html">Cula Context</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/utils.html">Cula Utils</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/services/index.html">Cula Services</a><input aria-label="Toggle navigation of Cula Services" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/services/dbus.html">DBus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/services/upower.html">UPower</a></li>
+</ul>
+</li>
 </ul>
 
 </div>
@@ -277,7 +283,106 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/todo.html">TODO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/context.html">Cula Context</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/context.html#data-types">Data Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/context.html#_CPPv412cula_context"><code class="docutils literal notranslate"><span class="pre">cula_context</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/context.html#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/context.html#_CPPv419cula_create_contextv"><code class="docutils literal notranslate"><span class="pre">cula_create_context()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/context.html#_CPPv416cula_run_contextP12cula_context"><code class="docutils literal notranslate"><span class="pre">cula_run_context()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/context.html#_CPPv420cula_destroy_contextP12cula_context"><code class="docutils literal notranslate"><span class="pre">cula_destroy_context()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/utils.html">Cula Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#data-types">Data Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#_CPPv411cula_list_t"><code class="docutils literal notranslate"><span class="pre">cula_list_t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#_CPPv413cula_signal_t"><code class="docutils literal notranslate"><span class="pre">cula_signal_t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#_CPPv415cula_listener_t"><code class="docutils literal notranslate"><span class="pre">cula_listener_t</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#macros">Macros</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#c.cula_container_of"><code class="docutils literal notranslate"><span class="pre">cula_container_of</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#c.cula_list_for_each"><code class="docutils literal notranslate"><span class="pre">cula_list_for_each</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#c.cula_list_for_each_safe"><code class="docutils literal notranslate"><span class="pre">cula_list_for_each_safe</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#c.cula_list_for_each_reverse"><code class="docutils literal notranslate"><span class="pre">cula_list_for_each_reverse</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#c.cula_list_for_each_reverse_safe"><code class="docutils literal notranslate"><span class="pre">cula_list_for_each_reverse_safe</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#list-management">List Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/utils.html#_CPPv414cula_list_initP11cula_list_t"><code class="docutils literal notranslate"><span class="pre">cula_list_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/utils.html#_CPPv416cula_list_insertP11cula_list_tP11cula_list_t"><code class="docutils literal notranslate"><span class="pre">cula_list_insert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/utils.html#_CPPv421cula_list_insert_listP11cula_list_tP11cula_list_t"><code class="docutils literal notranslate"><span class="pre">cula_list_insert_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/utils.html#_CPPv416cula_list_removeP11cula_list_t"><code class="docutils literal notranslate"><span class="pre">cula_list_remove()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/utils.html#_CPPv416cula_list_lengthPK11cula_list_t"><code class="docutils literal notranslate"><span class="pre">cula_list_length()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/utils.html#_CPPv415cula_list_emptyPK11cula_list_t"><code class="docutils literal notranslate"><span class="pre">cula_list_empty()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#signal-management">Signal Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/utils.html#_CPPv416cula_signal_initP13cula_signal_t"><code class="docutils literal notranslate"><span class="pre">cula_signal_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/utils.html#_CPPv415cula_signal_addP13cula_signal_tP15cula_listener_t"><code class="docutils literal notranslate"><span class="pre">cula_signal_add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/utils.html#_CPPv416cula_signal_emitP13cula_signal_tPv"><code class="docutils literal notranslate"><span class="pre">cula_signal_emit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/services/index.html">Cula Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/services/dbus.html">DBus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/services/dbus.html#data-types">Data Types</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv49cula_dbus"><code class="docutils literal notranslate"><span class="pre">cula_dbus</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv418cula_dbus_call_ctx"><code class="docutils literal notranslate"><span class="pre">cula_dbus_call_ctx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv414cula_dbus_type"><code class="docutils literal notranslate"><span class="pre">cula_dbus_type</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api/services/dbus.html#_CPPv4N14cula_dbus_type21CULA_DBUS_TYPE_SYSTEME"><code class="docutils literal notranslate"><span class="pre">CULA_DBUS_TYPE_SYSTEM</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api/services/dbus.html#_CPPv4N14cula_dbus_type22CULA_DBUS_TYPE_SESSIONE"><code class="docutils literal notranslate"><span class="pre">CULA_DBUS_TYPE_SESSION</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv416cula_dbus_status"><code class="docutils literal notranslate"><span class="pre">cula_dbus_status</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api/services/dbus.html#_CPPv4N16cula_dbus_status26CULA_DBUS_STATUS_CONNECTEDE"><code class="docutils literal notranslate"><span class="pre">CULA_DBUS_STATUS_CONNECTED</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api/services/dbus.html#_CPPv4N16cula_dbus_status23CULA_DBUS_STATUS_FAILEDE"><code class="docutils literal notranslate"><span class="pre">CULA_DBUS_STATUS_FAILED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv423cula_dbus_call_ctx_type"><code class="docutils literal notranslate"><span class="pre">cula_dbus_call_ctx_type</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api/services/dbus.html#_CPPv4N23cula_dbus_call_ctx_type27CULA_DBUS_CALL_TYPE_ONESHOTE"><code class="docutils literal notranslate"><span class="pre">CULA_DBUS_CALL_TYPE_ONESHOT</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api/services/dbus.html#_CPPv4N23cula_dbus_call_ctx_type26CULA_DBUS_CALL_TYPE_LISTENE"><code class="docutils literal notranslate"><span class="pre">CULA_DBUS_CALL_TYPE_LISTEN</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/services/dbus.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv423cula_get_or_create_dbusP12cula_context14cula_dbus_type"><code class="docutils literal notranslate"><span class="pre">cula_get_or_create_dbus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv421cula_create_dbus_callP9cula_dbusPKcPKcPKcPKcPKcz"><code class="docutils literal notranslate"><span class="pre">cula_create_dbus_call()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv414cula_call_dbusP12cula_contextP18cula_dbus_call_ctx23cula_dbus_call_ctx_type"><code class="docutils literal notranslate"><span class="pre">cula_call_dbus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv422cula_destroy_dbus_callP18cula_dbus_call_ctx"><code class="docutils literal notranslate"><span class="pre">cula_destroy_dbus_call()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/dbus.html#_CPPv417cula_destroy_dbusP9cula_dbus"><code class="docutils literal notranslate"><span class="pre">cula_destroy_dbus()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/services/upower.html">UPower</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/services/upower.html#data-types">Data Types</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/services/upower.html#_CPPv411cula_upower"><code class="docutils literal notranslate"><span class="pre">cula_upower</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/upower.html#_CPPv435cula_performance_degredation_reason"><code class="docutils literal notranslate"><span class="pre">cula_performance_degredation_reason</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="api/services/upower.html#_CPPv4N35cula_performance_degredation_reason25CULA_PDR_HIGH_TEMPERATUREE"><code class="docutils literal notranslate"><span class="pre">CULA_PDR_HIGH_TEMPERATURE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api/services/upower.html#_CPPv4N35cula_performance_degredation_reason21CULA_PDR_LAP_DETECTEDE"><code class="docutils literal notranslate"><span class="pre">CULA_PDR_LAP_DETECTED</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="api/services/upower.html#_CPPv4N35cula_performance_degredation_reason13CULA_PDR_NONEE"><code class="docutils literal notranslate"><span class="pre">CULA_PDR_NONE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/services/upower.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/services/upower.html#_CPPv418cula_create_upowerP12cula_context"><code class="docutils literal notranslate"><span class="pre">cula_create_upower()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/services/upower.html#_CPPv419cula_destroy_upowerP11cula_upower"><code class="docutils literal notranslate"><span class="pre">cula_destroy_upower()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
