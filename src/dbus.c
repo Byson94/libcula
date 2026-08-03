@@ -186,8 +186,8 @@ static int cula_dbus_async_callback(sd_bus_message *m, void *userdata, sd_bus_er
             break;
     }
 
-    cula_list_insert(&call_ctx->results, &call_result->link);
     cula_signal_emit(&call_ctx->events.result, call_result);
+    free(call_result);
 
     return 0;
 }
@@ -258,8 +258,6 @@ struct cula_dbus_call_ctx *cula_create_dbus_call(struct cula_dbus *dbus, const c
     call_ctx->path = path;
     call_ctx->interface = iface;
     call_ctx->method = method;
-
-    cula_list_init(&call_ctx->results);
     cula_signal_init(&call_ctx->events.result);
 
     sd_bus_message *m = NULL;
@@ -300,12 +298,6 @@ void cula_call_dbus(struct cula_context *ctx, struct cula_dbus_call_ctx *call_ct
 
 void cula_destroy_dbus_call(struct cula_dbus_call_ctx *call_ctx) {
     if (!call_ctx) return;
-
-    struct cula_dbus_call_result *call_res, *call_tmp;
-    cula_list_for_each_safe(call_res, call_tmp, &call_ctx->results, link) {
-        cula_list_remove(&call_res->link);
-        free(call_res);
-    }
 
     if (call_ctx->slot) {
         sd_bus_slot_unref(call_ctx->slot);

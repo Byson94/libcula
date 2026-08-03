@@ -45,10 +45,7 @@ struct cula_dbus {
  * The result of the dbus call.
  */
 struct cula_dbus_call_result {
-    cula_list_t link;
     struct cula_dbus_call_ctx *call;
-
-    // Result and Reply
     sd_bus_message *reply;
     const char *str_reply;
     int result;
@@ -67,7 +64,6 @@ struct cula_dbus_call_ctx {
     const char *method;
     sd_bus_message *message;
     sd_bus_slot *slot;
-    cula_list_t results;
 
     struct {
         cula_signal_t result; // cula_dbus_call_result
