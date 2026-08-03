@@ -113,9 +113,11 @@ struct cula_dbus *cula_get_or_create_dbus(struct cula_context *ctx, enum cula_db
 
 static int cula_dbus_async_callback(sd_bus_message *m, void *userdata, sd_bus_error *ret_error) {
     struct cula_dbus_call_ctx *call_ctx = userdata;
-    (void)ret_error;
+    UNUSED(ret_error);
 
-    call_ctx->reply = m;
+    struct cula_dbus_call_result *call_result = calloc(1, sizeof(struct cula_dbus_call_result));
+
+    call_result->reply = m;
     sd_bus_message_ref(m);
 
     char type_code = 0;
@@ -129,7 +131,7 @@ static int cula_dbus_async_callback(sd_bus_message *m, void *userdata, sd_bus_er
         {
             const char *val = NULL;
             sd_bus_message_read(m, type_code == SD_BUS_TYPE_OBJECT_PATH ? "o" : (type_code == SD_BUS_TYPE_SIGNATURE ? "g" : "s"), &val);
-            call_ctx->str_reply = strdup(val ? val : "");
+            call_result->str_reply = strdup(val ? val : "");
             break;
         }
         case SD_BUS_TYPE_INT32:        // 'i'
@@ -137,7 +139,7 @@ static int cula_dbus_async_callback(sd_bus_message *m, void *userdata, sd_bus_er
             int32_t val = 0;
             sd_bus_message_read(m, "i", &val);
             snprintf(buf, sizeof(buf), "%d", val);
-            call_ctx->str_reply = strdup(buf);
+            call_result->str_reply = strdup(buf);
             break;
         }
         case SD_BUS_TYPE_UINT32:       // 'u'
@@ -145,7 +147,7 @@ static int cula_dbus_async_callback(sd_bus_message *m, void *userdata, sd_bus_er
             uint32_t val = 0;
             sd_bus_message_read(m, "u", &val);
             snprintf(buf, sizeof(buf), "%u", val);
-            call_ctx->str_reply = strdup(buf);
+            call_result->str_reply = strdup(buf);
             break;
         }
         case SD_BUS_TYPE_INT64:        // 'x'
@@ -153,7 +155,7 @@ static int cula_dbus_async_callback(sd_bus_message *m, void *userdata, sd_bus_er
             int64_t val = 0;
             sd_bus_message_read(m, "x", &val);
             snprintf(buf, sizeof(buf), "%ld", (long)val);
-            call_ctx->str_reply = strdup(buf);
+            call_result->str_reply = strdup(buf);
             break;
         }
         case SD_BUS_TYPE_UINT64:       // 't'
@@ -161,14 +163,14 @@ static int cula_dbus_async_callback(sd_bus_message *m, void *userdata, sd_bus_er
             uint64_t val = 0;
             sd_bus_message_read(m, "t", &val);
             snprintf(buf, sizeof(buf), "%lu", (unsigned long)val);
-            call_ctx->str_reply = strdup(buf);
+            call_result->str_reply = strdup(buf);
             break;
         }
         case SD_BUS_TYPE_BOOLEAN:      // 'b'
         {
             int val = 0;
             sd_bus_message_read(m, "b", &val);
-            call_ctx->str_reply = strdup(val ? "true" : "false");
+            call_result->str_reply = strdup(val ? "true" : "false");
             break;
         }
         case SD_BUS_TYPE_DOUBLE:       // 'd'
@@ -176,15 +178,16 @@ static int cula_dbus_async_callback(sd_bus_message *m, void *userdata, sd_bus_er
             double val = 0.0;
             sd_bus_message_read(m, "d", &val);
             snprintf(buf, sizeof(buf), "%f", val);
-            call_ctx->str_reply = strdup(buf);
+            call_result->str_reply = strdup(buf);
             break;
         }
         default:
-            call_ctx->str_reply = strdup("(complex or unhandled type)");
+            call_result->str_reply = strdup("(complex or unhandled type)");
             break;
     }
 
-    cula_signal_emit(&call_ctx->events.result, call_ctx);
+    cula_list_insert(&call_ctx->results, &call_result->link);
+    cula_signal_emit(&call_ctx->events.result, call_result);
 
     return 0;
 }
@@ -255,6 +258,8 @@ struct cula_dbus_call_ctx *cula_create_dbus_call(struct cula_dbus *dbus, const c
     call_ctx->path = path;
     call_ctx->interface = iface;
     call_ctx->method = method;
+
+    cula_list_init(&call_ctx->results);
     cula_signal_init(&call_ctx->events.result);
 
     sd_bus_message *m = NULL;
@@ -295,6 +300,12 @@ void cula_call_dbus(struct cula_context *ctx, struct cula_dbus_call_ctx *call_ct
 
 void cula_destroy_dbus_call(struct cula_dbus_call_ctx *call_ctx) {
     if (!call_ctx) return;
+
+    struct cula_dbus_call_result *call_res, *call_tmp;
+    cula_list_for_each_safe(call_res, call_tmp, &call_ctx->results, link) {
+        cula_list_remove(&call_res->link);
+        free(call_res);
+    }
 
     if (call_ctx->slot) {
         sd_bus_slot_unref(call_ctx->slot);

@@ -42,24 +42,35 @@ struct cula_dbus {
 };
 
 /**
+ * The result of the dbus call.
+ */
+struct cula_dbus_call_result {
+    cula_list_t link;
+    struct cula_dbus_call_ctx *call;
+
+    // Result and Reply
+    sd_bus_message *reply;
+    const char *str_reply;
+    int result;
+};
+
+/**
  * The call to make to the dbus.
  */
 struct cula_dbus_call_ctx {
     cula_list_t link;
     struct cula_dbus *dbus;
+
     const char *destination;
     const char *path;
     const char *interface;
     const char *method;
     sd_bus_message *message;
-
     sd_bus_slot *slot;
-    sd_bus_message *reply;
-    const char *str_reply;
-    int result;
+    cula_list_t results;
 
     struct {
-        cula_signal_t result; // cula_dbus_call_ctx
+        cula_signal_t result; // cula_dbus_call_result
     } events;
 };
 
