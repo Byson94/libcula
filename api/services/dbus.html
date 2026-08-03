@@ -381,8 +381,8 @@
 <li><p><strong>path</strong> – Path of call (e.g. “/org/freedesktop/UPower/devices/battery_BAT0”). </p></li>
 <li><p><strong>iface</strong> – Interface of call (e.g. “org.freedesktop.UPower.Device”). </p></li>
 <li><p><strong>method</strong> – Method of the call (e.g. “Refresh”). </p></li>
-<li><p><strong>types</strong> – Types. </p></li>
-<li><p><strong>...</strong> – Other params. </p></li>
+<li><p><strong>types</strong> – Types of the va_args. </p></li>
+<li><p><strong>...</strong> – The va_args. </p></li>
 </ul>
 </dd>
 </dl>
@@ -392,6 +392,7 @@
 <dt class="sig sig-object cpp" id="_CPPv414cula_call_dbusP12cula_contextP18cula_dbus_call_ctx23cula_dbus_call_ctx_type">
 <span id="_CPPv314cula_call_dbusP12cula_contextP18cula_dbus_call_ctx23cula_dbus_call_ctx_type"></span><span id="_CPPv214cula_call_dbusP12cula_contextP18cula_dbus_call_ctx23cula_dbus_call_ctx_type"></span><span id="cula_call_dbus__cula_contextP.cula_dbus_call_ctxP.cula_dbus_call_ctx_type"></span><span class="target" id="include_2libcula_2services_2dbus_8h_1a36b8216ce9e2cc9820d90195280d5fe1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_call_dbus</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="../context.html#_CPPv412cula_context" title="cula_context"><span class="n"><span class="pre">cula_context</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">ctx</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv418cula_dbus_call_ctx" title="cula_dbus_call_ctx"><span class="n"><span class="pre">cula_dbus_call_ctx</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">call_ctx</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv423cula_dbus_call_ctx_type" title="cula_dbus_call_ctx_type"><span class="n"><span class="pre">cula_dbus_call_ctx_type</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414cula_call_dbusP12cula_contextP18cula_dbus_call_ctx23cula_dbus_call_ctx_type" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Make a call to the dbus with the specified call context.</p>
+<p>The result is handled by the <code class="docutils literal notranslate"><span class="pre">events-&gt;result</span></code> signal in the call context. Make sure to hook into it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
