@@ -1,6 +1,9 @@
 GENERATE_XML = YES
 GENERATE_HTML = NO
 GENERATE_LATEX = NO
-INCLUDE = ../include/
+INPUT = ../include/ \
+    ../src/
+INCLUDE_PATH = ../include/
+RECURSIVE = YES
 XML_OUTPUT = xml
-
+EXTRACT_ALL = YES

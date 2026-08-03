@@ -11,6 +11,9 @@ struct cula_context;
 
 // -- Enums & Payloads
 
+/**
+ * Reason for performance degredation.
+ */
 enum cula_performance_degredation_reason {
     CULA_PDR_HIGH_TEMPERATURE,
     CULA_PDR_LAP_DETECTED,
@@ -19,6 +22,12 @@ enum cula_performance_degredation_reason {
 
 // -- Init / Destroy
 
+/**
+ * Cula UPower service built on DBus.
+ *
+ * The UPower Daemon must be active and running for the service
+ * to work properly.
+ */
 struct cula_upower {
     cula_list_t link;
     struct cula_context *context;
@@ -42,7 +51,19 @@ struct cula_upower {
     } CULA_INTERNAL;
 };
 
+/**
+ * Create a new upower service.
+ *
+ * @param ctx The running cula context.
+ * @return `struct cula_upower *` The cula UPower service.
+ */
 struct cula_upower *cula_create_upower(struct cula_context *ctx);
+
+/**
+ * Destroy the provided cula UPower service.
+ *
+ * @param upower The upower service.
+ */
 void cula_destroy_upower(struct cula_upower *upower);
 
 #endif

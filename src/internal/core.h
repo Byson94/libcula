@@ -25,6 +25,9 @@ struct cula_work_item {
     cula_list_t node;
 };
 
+/**
+ * The core cula context.
+ */
 struct cula_context {
     uv_loop_t loop;
     pthread_t thread_id;

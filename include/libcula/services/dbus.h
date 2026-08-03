@@ -9,7 +9,7 @@
 struct cula_context;
 
 /**
- * @breif Type of the dbus interface.
+ * Type of the dbus interface.
  */
 enum cula_dbus_type {
     CULA_DBUS_TYPE_SYSTEM,
@@ -17,7 +17,7 @@ enum cula_dbus_type {
 };
 
 /*
- * @breif Current state of the dbus interface.
+ * Current state of the dbus interface.
  */
 enum cula_dbus_status {
     CULA_DBUS_STATUS_CONNECTED,
@@ -25,7 +25,7 @@ enum cula_dbus_status {
 };
 
 /**
- * @brief Represents a D-Bus connection service instance.
+ * Represents a D-Bus connection service instance.
  */
 struct cula_dbus {
     struct cula_service *service;
@@ -42,7 +42,7 @@ struct cula_dbus {
 };
 
 /**
- * @brief The call to make to the dbus.
+ * The call to make to the dbus.
  */
 struct cula_dbus_call_ctx {
     cula_list_t link;
@@ -64,7 +64,7 @@ struct cula_dbus_call_ctx {
 };
 
 /*
- * @breif The type of the dbus call.
+ * The type of the dbus call.
  */
 enum cula_dbus_call_ctx_type {
     CULA_DBUS_CALL_TYPE_ONESHOT,
@@ -72,42 +72,43 @@ enum cula_dbus_call_ctx_type {
 };
 
 /**
- * @brief Create a new D-Bus service instance attached to a context.
+ * Create a new D-Bus service instance attached to a context.
  * 
  * @param ctx The cula context running the event loop.
  * @param bus_type The type of bus ("system" or "session").
- * @return struct cula_dbus* Newly allocated D-Bus service or NULL on failure.
+ * @return `struct cula_dbus *` Newly allocated D-Bus service or NULL on failure.
  */
 struct cula_dbus *cula_get_or_create_dbus(struct cula_context *ctx, enum cula_dbus_type bus_type);
 
 /**
- * @brief Construct a dbus call context.
+ * Construct a dbus call context.
  *
  * @param dbus The cula dbus to make the call to.
  * @param dest Destination of call (e.g. "org.freedesktop.UPower").
  * @param path Path of call (e.g. "/org/freedesktop/UPower/devices/battery_BAT0").
  * @param iface Interface of call (e.g. "org.freedesktop.UPower.Device").
  * @param method Method of the call (e.g. "Refresh").
- * *param types Types.
+ * @param types Types.
+ * @param ... Other params.
  */
 struct cula_dbus_call_ctx *cula_create_dbus_call(struct cula_dbus *dbus, const char *dest, const char *path, 
                           const char *iface, const char *method, const char *types, ...);
 
-/*
- * @breif Make a call to the dbus with the specified call context.
+/**
+ * Make a call to the dbus with the specified call context.
  *
  * @param call_ctx The call context with call info.
  * @param type The type of call to make.
  */
 void cula_call_dbus(struct cula_context *ctx, struct cula_dbus_call_ctx *call_ctx, enum cula_dbus_call_ctx_type type);
 
-/*
- * @breif Destroy a dbus call. 
+/**
+ * Destroy a dbus call. 
  */
 void cula_destroy_dbus_call(struct cula_dbus_call_ctx *call_ctx);
 
 /**
- * @brief Destroy a D-Bus service instance and clean up resources.
+ * Destroy a D-Bus service instance and clean up resources.
  */
 void cula_destroy_dbus(struct cula_dbus *dbus);
 

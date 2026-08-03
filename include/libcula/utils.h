@@ -35,15 +35,24 @@
 
 #define UNUSED(x) (void)(x)
 
+/**
+ * A doubtly linked cula list.
+ */
 typedef struct cula_list {
     struct cula_list *prev;
     struct cula_list *next;
 } cula_list_t;
 
-typedef struct {
+/**
+ * A cula signal into which you can hook into.
+ */
+typedef struct cula_signal {
     cula_list_t listener_list;
 } cula_signal_t;
 
+/**
+ * A cula listener which you can attach to a signal.
+ */
 typedef struct cula_listener cula_listener_t;
 struct cula_listener {
     cula_list_t link;
@@ -56,11 +65,48 @@ struct cula_listener {
 
 /* --- List Management Wrappers (Declarations Only) --- */
 
+/**
+ * Initialize the doubtly linked cula list.
+ *
+ * @param list The pointer to the list to initialize.
+ */
 void cula_list_init(cula_list_t *list);
+
+/**
+ * Insert an element into a cula list.
+ *
+ * @param list The cula list to insert element into.
+ * @param elm The element to insert.
+ */
 void cula_list_insert(cula_list_t *list, cula_list_t *elm);
+
+/**
+ * Insert another cula list into a cula list.
+ *
+ * @param list The cula list to inser the other list to.
+ * @param other The other list to insert.
+ */
 void cula_list_insert_list(cula_list_t *list, cula_list_t *other);
+
+/**
+ * Remove a list element from all the lists its attached to.
+ *
+ * @param elm The element to remove.
+ */
 void cula_list_remove(cula_list_t *elm);
+
+/**
+ * Get the length of a cula list.
+ *
+ * @return The length of the cula list.
+ */
 int cula_list_length(const cula_list_t *list);
+
+/**
+ * Check whether the list is empty or not.
+ *
+ * @return true/false boolean.
+ */
 bool cula_list_empty(const cula_list_t *list);
 
 /* --- Iteration Macros --- */
@@ -91,8 +137,30 @@ bool cula_list_empty(const cula_list_t *list);
 
 /* --- Signal Wrappers --- */
 
+/**
+ * Initialize a signal. 
+ *
+ * Used internally by cula which user does not have to worry about.
+ *
+ * @param signal Pointer to the signal to initialize.
+ */
 void cula_signal_init(cula_signal_t *signal);
+
+/**
+ * Attach a listener to a signal.
+ * 
+ * @param listener The listener to attach.
+ */
 void cula_signal_add(cula_signal_t *signal, cula_listener_t *listener);
+
+/**
+ * Emit a signal to the listener.
+ *
+ * Used internally by cula which user does not have to worry about.
+ *
+ * @param signal The signal to emit.
+ * @param data The data to pass to the listener.
+ */
 void cula_signal_emit(cula_signal_t *signal, void *data);
 
 #endif

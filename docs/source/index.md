@@ -18,5 +18,7 @@ user/utils
 ```{toctree}
 :caption: API Documentation
 
-api/todo
+api/context
+api/utils
+api/services/index
 ```
