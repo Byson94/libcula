@@ -23,3 +23,11 @@ it easy to pick up. All the service definition headers can be found at `libcula/
 Everything in libcula is async and happens on a parallel thread. Instead of simple getters which you have
 to poll, you will get highly performant events into which you can hook functions into. These functions
 will be called every time the event triggers and you can do the appropriate action there.
+
+## Singleton Architecture
+
+All the services follow a **"get or create"** format to avoid redundancy. Since all the services
+automatically enroll themselves into the context on creation, you only have to store the context,
+and safely call `cula_<service>_get_or_create(context)` whenever you need to get a service.
+
+However, you can still store the services somewhere if you want O(1) lookups.

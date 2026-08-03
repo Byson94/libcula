@@ -72,7 +72,7 @@ enum cula_dbus_call_ctx_type {
 };
 
 /**
- * Create a new D-Bus service instance attached to a context.
+ * Create a new D-Bus service or get an already running one.
  * 
  * @param ctx The cula context running the event loop.
  * @param bus_type The type of bus ("system" or "session").

@@ -29,7 +29,7 @@ enum cula_performance_degredation_reason {
  * to work properly.
  */
 struct cula_upower {
-    cula_list_t link;
+    struct cula_service *service;
     struct cula_context *context;
     struct cula_dbus *dbus;
 
@@ -48,16 +48,17 @@ struct cula_upower {
         cula_listener_t on_battery;
         struct cula_dbus_call_ctx *perc_ctx;
         struct cula_dbus_call_ctx *onbatt_ctx;
+        cula_listener_t destroy;
     } CULA_INTERNAL;
 };
 
 /**
- * Create a new upower service.
+ * Create a new upower service or get an already running one.
  *
  * @param ctx The running cula context.
  * @return `struct cula_upower *` The cula UPower service.
  */
-struct cula_upower *cula_create_upower(struct cula_context *ctx);
+struct cula_upower *cula_get_or_create_upower(struct cula_context *ctx);
 
 /**
  * Destroy the provided cula UPower service.

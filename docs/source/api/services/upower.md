@@ -16,7 +16,7 @@
 
 ## API
 
-```{doxygenfunction} cula_create_upower
+```{doxygenfunction} cula_get_or_create_upower
 ```
 
 ```{doxygenfunction} cula_destroy_upower
