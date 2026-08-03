@@ -3,4 +3,5 @@
 ```{toctree}
 dbus
 upower
+greetd
 ```
