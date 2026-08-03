@@ -257,7 +257,7 @@
 <dt class="sig sig-object cpp" id="_CPPv411cula_upower">
 <span id="_CPPv311cula_upower"></span><span id="_CPPv211cula_upower"></span><span id="cula_upower"></span><span class="target" id="structcula__upower"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_upower</span></span></span><a class="headerlink" href="#_CPPv411cula_upower" title="Link to this definition">¶</a><br /></dt>
 <dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_upower</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">cula_list_t</span><span class="w"> </span><span class="n">link</span><span class="p">;</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_service</span><span class="w"> </span><span class="o">*</span><span class="n">service</span><span class="p">;</span>
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_context</span><span class="w"> </span><span class="o">*</span><span class="n">context</span><span class="p">;</span>
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus</span><span class="w"> </span><span class="o">*</span><span class="n">dbus</span><span class="p">;</span>
 
@@ -276,6 +276,7 @@
 <span class="w">        </span><span class="n">cula_listener_t</span><span class="w"> </span><span class="n">on_battery</span><span class="p">;</span>
 <span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus_call_ctx</span><span class="w"> </span><span class="o">*</span><span class="n">perc_ctx</span><span class="p">;</span>
 <span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_dbus_call_ctx</span><span class="w"> </span><span class="o">*</span><span class="n">onbatt_ctx</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cula_listener_t</span><span class="w"> </span><span class="n">destroy</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">CULA_INTERNAL</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
@@ -310,9 +311,9 @@
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h2>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv418cula_create_upowerP12cula_context">
-<span id="_CPPv318cula_create_upowerP12cula_context"></span><span id="_CPPv218cula_create_upowerP12cula_context"></span><span id="cula_create_upower__cula_contextP"></span><span class="target" id="upower_8h_1a7cc518deb9209a591378e287b2584154"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv411cula_upower" title="cula_upower"><span class="n"><span class="pre">cula_upower</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cula_create_upower</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="../context.html#_CPPv412cula_context" title="cula_context"><span class="n"><span class="pre">cula_context</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">ctx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418cula_create_upowerP12cula_context" title="Link to this definition">¶</a><br /></dt>
-<dd><p>Create a new upower service.</p>
+<dt class="sig sig-object cpp" id="_CPPv425cula_get_or_create_upowerP12cula_context">
+<span id="_CPPv325cula_get_or_create_upowerP12cula_context"></span><span id="_CPPv225cula_get_or_create_upowerP12cula_context"></span><span id="cula_get_or_create_upower__cula_contextP"></span><span class="target" id="upower_8h_1af8131dd54b76522e0e75c5eb725e3c39"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv411cula_upower" title="cula_upower"><span class="n"><span class="pre">cula_upower</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cula_get_or_create_upower</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="../context.html#_CPPv412cula_context" title="cula_context"><span class="n"><span class="pre">cula_context</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">ctx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425cula_get_or_create_upowerP12cula_context" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Create a new upower service or get an already running one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ctx</strong> – The running cula context. </p>
@@ -399,7 +400,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#api">API</a><ul>
-<li><a class="reference internal" href="#_CPPv418cula_create_upowerP12cula_context"><code class="docutils literal notranslate"><span class="pre">cula_create_upower()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv425cula_get_or_create_upowerP12cula_context"><code class="docutils literal notranslate"><span class="pre">cula_get_or_create_upower()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv419cula_destroy_upowerP11cula_upower"><code class="docutils literal notranslate"><span class="pre">cula_destroy_upower()</span></code></a></li>
 </ul>
 </li>

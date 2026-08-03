@@ -273,6 +273,13 @@ it easy to pick up. All the service definition headers can be found at <code cla
 to poll, you will get highly performant events into which you can hook functions into. These functions
 will be called every time the event triggers and you can do the appropriate action there.</p>
 </section>
+<section id="singleton-architecture">
+<h2>Singleton Architecture<a class="headerlink" href="#singleton-architecture" title="Link to this heading">¶</a></h2>
+<p>All the services follow a <strong>“get or create”</strong> format to avoid redundancy. Since all the services
+automatically enroll themselves into the context on creation, you only have to store the context,
+and safely call <code class="docutils literal notranslate"><span class="pre">cula_&lt;service&gt;_get_or_create(context)</span></code> whenever you need to get a service.</p>
+<p>However, you can still store the services somewhere if you want O(1) lookups.</p>
+</section>
 </section>
 
         </article>
@@ -337,6 +344,7 @@ will be called every time the event triggers and you can do the appropriate acti
 <li><a class="reference internal" href="#context">Context</a></li>
 <li><a class="reference internal" href="#services">Services</a></li>
 <li><a class="reference internal" href="#event-system">Event System</a></li>
+<li><a class="reference internal" href="#singleton-architecture">Singleton Architecture</a></li>
 </ul>
 </li>
 </ul>
