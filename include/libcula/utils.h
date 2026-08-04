@@ -36,7 +36,7 @@
 #define UNUSED(x) (void)(x)
 
 /**
- * A doubtly linked cula list.
+ * A doubly linked cula list.
  */
 typedef struct cula_list {
     struct cula_list *prev;
@@ -66,7 +66,7 @@ struct cula_listener {
 /* --- List Management Wrappers (Declarations Only) --- */
 
 /**
- * Initialize the doubtly linked cula list.
+ * Initialize the doubly linked cula list.
  *
  * @param list The pointer to the list to initialize.
  */

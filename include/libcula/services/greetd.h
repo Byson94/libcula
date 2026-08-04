@@ -30,8 +30,6 @@ struct cula_greetd_auth_msg {
  */
 struct cula_greetd {
     struct cula_service *service;
-
-    bool available;
     const char *user;
 
     struct {
@@ -39,6 +37,10 @@ struct cula_greetd {
         cula_signal_t error;
         cula_signal_t auth_message; // cula_greetd_auth_msg
     } events;
+
+    struct {
+        cula_listener_t destroy;
+    } CULA_INTERNAL;
 };
 
 /**
@@ -46,7 +48,7 @@ struct cula_greetd {
  *
  * @param ctx The running cula context.
  * @param user The user.
- * @return `struct cula_greetd *` The cula greetd session.
+ * @return `struct cula_greetd *` The cula greetd session. Can be NULL if not available.
  */
 struct cula_greetd *cula_get_or_create_greetd(struct cula_context *ctx, const char *user);
 

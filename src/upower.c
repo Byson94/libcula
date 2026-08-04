@@ -38,7 +38,7 @@ struct cula_upower *cula_get_or_create_upower(struct cula_context *ctx) {
 
     // Setup service
     struct cula_service *service = calloc(1, sizeof(struct cula_service));
-    service->service_ptr = dbus;
+    service->service_ptr = upower;
     service->name = upower_id;
     cula_signal_init(&service->destroy_signal);
 
@@ -46,7 +46,7 @@ struct cula_upower *cula_get_or_create_upower(struct cula_context *ctx) {
     upower->service = service;
 
     cula_list_insert(&ctx->services, &service->link);
-    cula_signal_add(&service->destroy_signal, &dbus->DBUS_INTERNAL.destroy);
+    cula_signal_add(&service->destroy_signal, &upower->CULA_INTERNAL.destroy);
 
     return upower;
 }
