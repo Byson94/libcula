@@ -259,8 +259,6 @@
 <span id="_CPPv311cula_greetd"></span><span id="_CPPv211cula_greetd"></span><span id="cula_greetd"></span><span class="target" id="structcula__greetd"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_greetd</span></span></span><a class="headerlink" href="#_CPPv411cula_greetd" title="Link to this definition">¶</a><br /></dt>
 <dd><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_greetd</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_service</span><span class="w"> </span><span class="o">*</span><span class="n">service</span><span class="p">;</span>
-
-<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">available</span><span class="p">;</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">user</span><span class="p">;</span>
 
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
@@ -268,6 +266,10 @@
 <span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
 <span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">auth_message</span><span class="p">;</span><span class="w"> </span><span class="c1">// cula_greetd_auth_msg</span>
 <span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">events</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cula_listener_t</span><span class="w"> </span><span class="n">destroy</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">CULA_INTERNAL</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
 </div>
@@ -328,7 +330,7 @@
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">struct</span> <a class="reference internal" href="#structcula__greetd"><span class="std std-ref"><span class="pre">cula_greetd</span></span></a> <span class="pre">*</span></code> The cula greetd session. </p>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">struct</span> <a class="reference internal" href="#structcula__greetd"><span class="std std-ref"><span class="pre">cula_greetd</span></span></a> <span class="pre">*</span></code> The cula greetd session. Can be NULL if not available. </p>
 </dd>
 </dl>
 </dd></dl>
