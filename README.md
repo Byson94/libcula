@@ -9,6 +9,7 @@ Install the dependencies:
 - libuv
 - libsystemd
 - wayland
+- cjson
 
 And run these commands:
 

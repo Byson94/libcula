@@ -28,6 +28,9 @@
 ```{doxygenfunction} cula_get_or_create_greetd
 ```
 
+```{doxygenfunction} cula_create_session_greetd
+```
+
 ```{doxygenfunction} cula_start_session_greetd
 ```
 

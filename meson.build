@@ -14,6 +14,7 @@ add_project_arguments('-D_GNU_SOURCE', language: 'c')
 wayland_client = dependency('wayland-client')
 systemd_dep = dependency('libsystemd')
 libuv_dep = dependency('libuv')
+cjson_dep = dependency('libcjson')
 neco_proj = subproject('neco')
 neco_dep = neco_proj.get_variable('neco_dep')
 
@@ -30,6 +31,7 @@ libcula = library('cula',
     wayland_client,
     systemd_dep,
     libuv_dep,
+    cjson_dep,
     neco_dep
   ],
   install: true

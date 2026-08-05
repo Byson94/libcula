@@ -32,6 +32,9 @@ struct cula_greetd {
     struct cula_service *service;
     const char *user;
 
+    const char *socket;
+    int socket_fd;
+
     struct {
         cula_signal_t success;
         cula_signal_t error;
@@ -44,7 +47,11 @@ struct cula_greetd {
 };
 
 /**
- * Create the greetd service and a session.
+ * Create the cula greetd service. 
+ *
+ * This function does not set up the greetd session. 
+ * It must be created separately with 'cula_create_session_greetd'.
+ * But make sure to hook into the signals before creating the greetd session.
  *
  * @param ctx The running cula context.
  * @param user The user.
@@ -53,13 +60,25 @@ struct cula_greetd {
 struct cula_greetd *cula_get_or_create_greetd(struct cula_context *ctx, const char *user);
 
 /**
+ * Create the greetd session.
+ *
+ * @param greetd The greetd service.
+ * @return Exit status. Non-0 status is error.
+ */
+int cula_create_session_greetd(struct cula_greetd *greetd);
+
+/**
  * Start the greetd service.
+ *
+ * The greetd session must be created before running this function.
+ * Otherwise the function will return early with exit code '2'.
  *
  * @param greetd The greetd service.
  * @param cmd Command array to execute upon successful auth.
  * @param env Environment variables array.
+ * @return Exit status. Non-0 status is error.
  */
-void cula_start_session_greetd(struct cula_greetd *greetd, const char **cmd, const char **env);
+int cula_start_session_greetd(struct cula_greetd *greetd, const char **cmd, const char **env);
 
 /**
  * Respond to an authentication message.
