@@ -261,6 +261,9 @@
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cula_service</span><span class="w"> </span><span class="o">*</span><span class="n">service</span><span class="p">;</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">user</span><span class="p">;</span>
 
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">socket</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">socket_fd</span><span class="p">;</span>
+
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">success</span><span class="p">;</span>
 <span class="w">        </span><span class="n">cula_signal_t</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
@@ -321,7 +324,8 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv425cula_get_or_create_greetdP12cula_contextPKc">
 <span id="_CPPv325cula_get_or_create_greetdP12cula_contextPKc"></span><span id="_CPPv225cula_get_or_create_greetdP12cula_contextPKc"></span><span id="cula_get_or_create_greetd__cula_contextP.cCP"></span><span class="target" id="greetd_8h_1a4e6873bb847fe553e07c3990173acafa"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv411cula_greetd" title="cula_greetd"><span class="n"><span class="pre">cula_greetd</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cula_get_or_create_greetd</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="../context.html#_CPPv412cula_context" title="cula_context"><span class="n"><span class="pre">cula_context</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">ctx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">user</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425cula_get_or_create_greetdP12cula_contextPKc" title="Link to this definition">¶</a><br /></dt>
-<dd><p>Create the greetd service and a session.</p>
+<dd><p>Create the cula greetd service.</p>
+<p>This function does not set up the greetd session. It must be created separately with ‘cula_create_session_greetd’. But make sure to hook into the signals before creating the greetd session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -336,9 +340,24 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv426cula_create_session_greetdP11cula_greetd">
+<span id="_CPPv326cula_create_session_greetdP11cula_greetd"></span><span id="_CPPv226cula_create_session_greetdP11cula_greetd"></span><span id="cula_create_session_greetd__cula_greetdP"></span><span class="target" id="greetd_8h_1a6ff98a2a21c6094497d497faa8908162"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_create_session_greetd</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv411cula_greetd" title="cula_greetd"><span class="n"><span class="pre">cula_greetd</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">greetd</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426cula_create_session_greetdP11cula_greetd" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Create the greetd session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>greetd</strong> – The greetd service. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Exit status. Non-0 status is error. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv425cula_start_session_greetdP11cula_greetdPPKcPPKc">
-<span id="_CPPv325cula_start_session_greetdP11cula_greetdPPKcPPKc"></span><span id="_CPPv225cula_start_session_greetdP11cula_greetdPPKcPPKc"></span><span id="cula_start_session_greetd__cula_greetdP.cCPP.cCPP"></span><span class="target" id="greetd_8h_1ab713c57fd74d25a69969a04cd6d91782"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_start_session_greetd</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv411cula_greetd" title="cula_greetd"><span class="n"><span class="pre">cula_greetd</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">greetd</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">cmd</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">env</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425cula_start_session_greetdP11cula_greetdPPKcPPKc" title="Link to this definition">¶</a><br /></dt>
+<span id="_CPPv325cula_start_session_greetdP11cula_greetdPPKcPPKc"></span><span id="_CPPv225cula_start_session_greetdP11cula_greetdPPKcPPKc"></span><span id="cula_start_session_greetd__cula_greetdP.cCPP.cCPP"></span><span class="target" id="greetd_8h_1add57e6ea8ac84cbf8ddca9c2950262ca"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cula_start_session_greetd</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv411cula_greetd" title="cula_greetd"><span class="n"><span class="pre">cula_greetd</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">greetd</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">cmd</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">env</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425cula_start_session_greetdP11cula_greetdPPKcPPKc" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Start the greetd service.</p>
+<p>The greetd session must be created before running this function. Otherwise the function will return early with exit code ‘2’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -346,6 +365,9 @@
 <li><p><strong>cmd</strong> – Command array to execute upon successful auth. </p></li>
 <li><p><strong>env</strong> – Environment variables array. </p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Exit status. Non-0 status is error. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -443,6 +465,7 @@
 </li>
 <li><a class="reference internal" href="#api">API</a><ul>
 <li><a class="reference internal" href="#_CPPv425cula_get_or_create_greetdP12cula_contextPKc"><code class="docutils literal notranslate"><span class="pre">cula_get_or_create_greetd()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv426cula_create_session_greetdP11cula_greetd"><code class="docutils literal notranslate"><span class="pre">cula_create_session_greetd()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv425cula_start_session_greetdP11cula_greetdPPKcPPKc"><code class="docutils literal notranslate"><span class="pre">cula_start_session_greetd()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv427cula_submit_response_greetdP20cula_greetd_auth_msgPKc"><code class="docutils literal notranslate"><span class="pre">cula_submit_response_greetd()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv419cula_destroy_greetdP11cula_greetd"><code class="docutils literal notranslate"><span class="pre">cula_destroy_greetd()</span></code></a></li>
